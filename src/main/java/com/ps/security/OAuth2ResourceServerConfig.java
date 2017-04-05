@@ -1,5 +1,7 @@
 package com.ps.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -21,6 +23,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 // prePostEnabled 很重要，可以讓你配置 @PreAuthorize("#oauth2.hasScope('account')") 在任何需要的方法上
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    @Autowired
+    private ResourceServerProperties resourceServerProperties;
 
     // 這邊配置這服務的 resourceId ，當 jwt 中不含符合的 resourceId 則會拒絕操作
     @Override
@@ -50,7 +55,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("ASDFASFsdfsdfsdfsfadsf234asdfasfdas");
+        converter.setSigningKey(resourceServerProperties.getJwt().getKeyValue());
         return converter;
     }
 
