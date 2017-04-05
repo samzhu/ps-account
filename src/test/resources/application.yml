@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: AccountService
+  profiles:
+    active: test
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    time-zone: UTC
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MySQL;DB_CLOSE_DELAY=-1
+    initialize: false
+    sql-script-encoding: UTF-8
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: H2
+    show-sql: true
+    generate-ddl: false
+  mail:
+    host: "mail.pousheng.com"
+    username: "ec-sys@pousheng.com"
+    password: "1qaz@WSX"
+
+pousheng:
+  passwordforget:
+    mailsubject: "宝胜帐号密码重置"
+    mailtext: "要验证您的身份，请使用以下代码：\n\n%s\n宝胜非常重视您的账户安全。宝胜绝不会通过电子邮件要求您公开或验证您的宝胜密码、信用卡或银行账号。如果您收到包含更新账户信息链接的可疑电子邮件，请不要单击链接，而应该将此电子邮件报告给宝胜以进行调查。\n我们希望很快就能再见到您。"
+    otpexpirtime: 600000
+    retrylimitcount: 3
+    retrylimittime: 600000
+
+logging:
+  file: D:/logs/account-test.log
+  level:
+    root: Info
+    com.ps: debug
+

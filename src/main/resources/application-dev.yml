@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: ${dburl:jdbc:mysql://10.0.0.162:3306/test2auth?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false&preferredTestQuery=select now()}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${dbusername:mysql162}
+    password: ${dbpassword:!QAZ2wsx}
+  jpa:
+    show-sql: true
+  mail:
+    host: "mail.pousheng.com"
+    username: "ec-sys@pousheng.com"
+    password: "1qaz@WSX"
+
+pousheng:
+  passwordforget:
+    mailsubject: "宝胜帐号密码重置"
+    mailtext: "要验证您的身份，请使用以下代码：\n\n%s\n宝胜非常重视您的账户安全。宝胜绝不会通过电子邮件要求您公开或验证您的宝胜密码、信用卡或银行账号。如果您收到包含更新账户信息链接的可疑电子邮件，请不要单击链接，而应该将此电子邮件报告给宝胜以进行调查。\n我们希望很快就能再见到您。"
+    otpexpirtime: 600000
+    retrylimitcount: 3
+    retrylimittime: 600000
+
+
+logging:
+  file: D:/logs/account-dev.log
+  level:
+    root: Info
+    org.springframework: info
+    com.ps: debug
+    com.xxx.ooo.spring: 'OFF'
+
+
+
+port: 8082

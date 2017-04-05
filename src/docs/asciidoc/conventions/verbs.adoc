@@ -1,0 +1,24 @@
+[[overview-http-verbs]]
+== HTTP verbs
+
+{project-name} tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.
+
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+| `PUT`
+| Used to update a resource. Updating a resource with PUT means the resource will be completely replaced by the data in the request, so fields that are missing in the request will be set to NULL.
+
+| `PATCH`
+| Used to partially update a resource. Only the fields that are actually included in the request will be updated. Other fields on the resource will not be touched.
+
+| `DELETE`
+| Used to delete an existing resource
+|===
