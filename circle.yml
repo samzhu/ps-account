@@ -21,6 +21,7 @@ deployment:
       - gradle build
       - cp build/libs/ps-account-0.0.1-SNAPSHOT.jar "build/libs/ps-account-$CIRCLE_BUILD_NUM.jar"
       - cp -R build/libs $CIRCLE_ARTIFACTS
+      - cp -R build/asciidoc $CIRCLE_ARTIFACTS
       - docker build -t "spike234/ps-account:$CIRCLE_BUILD_NUM" .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push "spike234/ps-account:$CIRCLE_BUILD_NUM"
