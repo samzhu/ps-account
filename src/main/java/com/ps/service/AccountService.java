@@ -52,6 +52,9 @@ public class AccountService {
     // 註冊
     public Account register(AccountRegisterDto accountRegisterDto) {
         //AuthenticationUtil.configureAuthentication("ROLE_ADMIN");
+        if(accountRepository.findByUsername(accountRegisterDto.getUsername()) != null){
+            throw new ForbiddenException(accountRegisterDto.getUsername() + " 已被注册");
+        }
 
         ModelMapper modelMapper = new ModelMapper();
         Account account = modelMapper.map(accountRegisterDto, Account.class);

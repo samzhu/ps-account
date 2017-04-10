@@ -33,6 +33,4 @@ logging:
     com.ps: debug
     com.xxx.ooo.spring: 'OFF'
 
-
-
 port: 8082
