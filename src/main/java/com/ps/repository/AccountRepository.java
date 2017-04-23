@@ -17,9 +17,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public interface AccountRepository extends JpaRepository<Account, String> {
 
 
-    @RestResource(path = "findByUsername", exported = false)
+    @RestResource(path = "findByUsername", exported = true)
     @Query("SELECT a FROM Account a WHERE a.username = :username")
     Account findByUsername(@Param("username") String username);
+
+    Account findByEmail(@Param("email") String email);
 
     // Prevents GET /accounts/:id
     @Override

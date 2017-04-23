@@ -25,6 +25,7 @@ public class AccountResourcesProcessor implements ResourceProcessor<Resource<Acc
         //resource.add(repositoryEntityLinks.linksToSearchResources(Role.class).getLink("findRoleListByUserUsername").withRel("roles"));
         //resource.add(repositoryEntityLinks.linkToCollectionResource(Role.class).expand("5","20").withRel("roles")); // roles?page=5&size=20
         resource.add(ControllerLinkBuilder.linkTo(ControllerLinkBuilder.methodOn(AccountRoleController.class).findRoleByAccountid(resource.getContent().getAccountid())).withRel("roles"));
+        // http://localhost:8082/api/v1/account/0000000000/role
         return resource;
     }
 }

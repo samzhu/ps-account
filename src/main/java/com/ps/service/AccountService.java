@@ -55,14 +55,14 @@ public class AccountService {
         if(accountRepository.findByUsername(accountRegisterDto.getUsername()) != null){
             throw new ForbiddenException(accountRegisterDto.getUsername() + " 已被注册");
         }
-
+        //System.out.println(accountRegisterDto);
         ModelMapper modelMapper = new ModelMapper();
         Account account = modelMapper.map(accountRegisterDto, Account.class);
         String accountid = RandomStringUtils.randomAlphanumeric(10);
         account.setAccountid(accountid);
         List<Role> roles = roleRepository.findByCodeIn(accountRegisterDto.getRoles());
         account.setPassword(new BCryptPasswordEncoder().encode(account.getPassword()));
-        accountRepository.save(account);
+        account = accountRepository.save(account);
         roles.forEach(role -> {
             AccountRole accountRole = new AccountRole();
             accountRole.setSerid(RandomStringUtils.randomAlphanumeric(10));

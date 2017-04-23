@@ -6,6 +6,7 @@ import com.ps.repository.RoleRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -22,7 +23,8 @@ public class RoleService {
     // 這邊需要有 role 或是 role.readonly 的操作範圍的人才可以讀取角色列表
     @PreAuthorize("#oauth2.hasScope('role') or #oauth2.hasScope('role.readonly')")
     public List<Role> listAll(){
-        return roleRepository.findAll();
+        Sort sort = new Sort(Sort.Direction.DESC, "createddate");
+        return roleRepository.findAll(sort);
     }
 
     // 這邊是寫入角色，所以限定 role 的操作範圍才可以寫入
