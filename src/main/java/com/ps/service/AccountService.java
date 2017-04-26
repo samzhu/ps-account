@@ -49,7 +49,7 @@ public class AccountService {
     @Autowired
     private PasswdforgerRepository passwdforgerRepository;
 
-    // 註冊
+    // 注册
     public Account register(AccountRegisterDto accountRegisterDto) {
         //AuthenticationUtil.configureAuthentication("ROLE_ADMIN");
         if(accountRepository.findByUsername(accountRegisterDto.getUsername()) != null){
@@ -74,15 +74,15 @@ public class AccountService {
         return account;
     }
 
-    // 忘記密碼申請
+    // 忘记密码申请
     public void passwordForget(String ip, PasswdForgetDto passwdForgetDto) {
         Account account = accountRepository.findByUsername(passwdForgetDto.getUsername());
         if (account == null) {
-            throw new ForbiddenException("無此帳號");
+            throw new ForbiddenException("无此帐号");
         }
         long retrycount = passwdforgerRepository.countByAccountidAndCreateddateBetween(account.getAccountid(), new Date(System.currentTimeMillis() - passwordforgetConfig.getRetrylimittime()), new Date());
         if (retrycount > passwordforgetConfig.getRetrylimitcount()) {
-            throw new ForbiddenException("超出申請上限 請稍後再試");
+            throw new ForbiddenException("超出申请上限 请稍后再试");
         }
         String otp = RandomStringUtils.randomNumeric(6);
         Passwdforger passwdforger = new Passwdforger();
@@ -101,26 +101,26 @@ public class AccountService {
         javaMailSender.send(message);
     }
 
-    // 忘記密碼重設
+    // 忘记密码重设
     public void passwordForgetSet(PasswdForgetSetDto passwdForgetSetDto) {
         if (!passwdForgetSetDto.getPassword().equals(passwdForgetSetDto.getPasswordconfirm())) {
-            throw new ForbiddenException("Password & Passwordconfirm is different");
+            throw new ForbiddenException("新密码与密码确认不一致");
         }
         Account account = accountRepository.findByUsername(passwdForgetSetDto.getUsername());
         Passwdforger passwdforger = passwdforgerRepository.findByAccountidAndOtp(account.getAccountid(), passwdForgetSetDto.getOtp());
         if (passwdforger == null) {
-            throw new ForbiddenException("驗證碼錯誤");
+            throw new ForbiddenException("验证码错误");
         }
         if (passwdforger.getUsed() == Boolean.TRUE) {
-            throw new ForbiddenException("驗證碼已使用");
+            throw new ForbiddenException("验证码已使用");
         }
         if (passwdforger.getExpired() == Boolean.TRUE) {
-            throw new ForbiddenException("驗證碼錯誤");
+            throw new ForbiddenException("验证码错误");
         }
         if (new Date().after(passwdforger.getExpirdate()) == Boolean.TRUE) {
             passwdforger.setExpired(Boolean.TRUE);
             passwdforgerRepository.save(passwdforger);
-            throw new ForbiddenException("驗證碼過期");
+            throw new ForbiddenException("验证码过期");
         }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         account.setPassword(passwordEncoder.encode(passwdForgetSetDto.getPassword()));
@@ -129,10 +129,10 @@ public class AccountService {
         passwdforgerRepository.save(passwdforger);
     }
 
-    // 自己帳號重設密碼
+    // 自己帐号重设密码
     public void setpasswd(AccountSetpasswdDto accountSetpasswdDto) {
         if (!accountSetpasswdDto.getPassword().equals(accountSetpasswdDto.getPasswordconfirm())) {
-            throw new ForbiddenException("Password & Passwordconfirm is different");
+            throw new ForbiddenException("新密码与密码确认不一致");
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -141,17 +141,14 @@ public class AccountService {
         if (passwordEncoder.matches(accountSetpasswdDto.getPasswordoriginal(), account.getPassword()) == true) {
             account.setPassword(passwordEncoder.encode(accountSetpasswdDto.getPassword()));
         } else {
-            throw new ForbiddenException("Passwordoriginal error");
+            throw new ForbiddenException("旧密码错误");
         }
         accountRepository.save(account);
     }
-
 
     private String passwordEncoder(String passwd) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String hashedPassword = passwordEncoder.encode(passwd);
         return hashedPassword;
     }
-
-
 }
