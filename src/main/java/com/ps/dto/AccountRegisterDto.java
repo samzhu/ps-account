@@ -19,7 +19,7 @@ import java.util.List;
 public class AccountRegisterDto {
     @ApiModelProperty(value = "帐号", required = true, example = "sam.chu")
     @NotNull
-    @Length(min = 5, max = 30, message = "密码长度 需介于 {min} 到 {max} 之间")
+    @Length(min = 5, max = 30, message = "帐号 需介于 {min} 到 {max} 之间")
     private String username;
     @ApiModelProperty(value = "信箱", required = true, example = "sam@gmail.com")
     @NotNull
