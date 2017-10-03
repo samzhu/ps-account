@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Data
 @ApiModel(description = "密碼重置請求")
 public class PasswdForgetSetDto {
-    @ApiModelProperty(value = "帳號", required = true, example = "sam@gmail.com")
+    @ApiModelProperty(value = "帳號", required = true, example = "sam@gmail.com", notes = "email帳號")
     @NotNull @NotEmpty
     @Size(min = 5, max = 30)
     private String username;
